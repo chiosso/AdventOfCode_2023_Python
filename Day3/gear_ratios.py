@@ -1,6 +1,6 @@
 ## LOAD INPUT ##
 
-input_file_path = 'C:\\Users\\tim\\python\\AdventOfCode_2023\\Day3\\input.txt'
+input_file_path = 'C:\\Users\\tim\\dev\\AdventOfCode_2023_Python\\Day3\\input.txt'
 input_file = open(input_file_path, 'r')
 schematic = input_file.readlines()
 
