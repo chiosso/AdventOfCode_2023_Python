@@ -1,3 +1,5 @@
+from datetime import datetime
+
 class RangeMap:
     def __init__(self, valuesTriplet):
         self.destinationRangeStart = valuesTriplet[0]
@@ -61,19 +63,21 @@ almanacMaps.append(AlmanacMap(mapName,rangeMaps))
 
 ## TRAVERSE THE MAPS ##
 
-locationNumbers = []
+lowestLocationNumber = 'na'
 i = 0
 while i < len(seeds):
     startRange=seeds[i]
     rangeLen=seeds[i+1]
-    print('Processing seed range ' + str(startRange) + ' ' + str(rangeLen))
+    print(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + ' Processing seed range ' + str(startRange) + ' ' + str(rangeLen))
     for n in range(startRange,startRange+rangeLen):
         #print('\nSeed ' + str(n))
         for a in almanacMaps:
             n = a.map(n)
             #print(a.name + ' -> ' + str(n))
-        locationNumbers.append(n)
+        if lowestLocationNumber == 'na':
+            lowestLocationNumber = n
+        elif n < lowestLocationNumber:
+            lowestLocationNumber = n
     i=i+2
 
-locationNumbers.sort()
-print('\nLowest location number: ' + str(locationNumbers[0]))
+print('\nLowest location number: ' + str(lowestLocationNumber))
