@@ -6,6 +6,7 @@ maze = open('Day10/input.txt', 'r').readlines()
 for i in range(len(maze)):
     maze[i] = maze[i].rstrip()
 path = [ ['.']*len(maze[0]) for i in range(len(maze))]
+maze_just_loop = [ ['.']*len(maze[0]) for i in range(len(maze))]
 
 ## OBJECT AND FUNCTIONAL MODEL ##
 
@@ -120,6 +121,7 @@ for starting_position in starting_positions:
                 print('Met with another path, stopping here')
                 break
         path[cursor.pos_y][cursor.pos_x] = steps_taken
+        maze_just_loop[cursor.pos_y][cursor.pos_x] = maze[cursor.pos_y][cursor.pos_x]
 
 ## FIND THE FARTHEST POINT ##
 
@@ -135,6 +137,8 @@ print('Farthest point: ' + str(farthest_steps))
 ## OUTPUT THE PATH ##
 
 output = open('Day10/output.txt', 'w')
-for line in path:
-    output.write(str(line))
+for line in maze_just_loop:
+    for c in line:
+        output.write(c)
+    output.write('\n')
 output.close()
