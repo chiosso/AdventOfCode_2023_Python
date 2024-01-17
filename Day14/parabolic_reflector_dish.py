@@ -1,28 +1,57 @@
-from Day14 import cursor
 
 ROUNDED_ROCK = 'O'
+CUBED_ROCK = '#'
 EMPTY_SPACE = '.'
 
 ## PROCESS INPUT ##
 
-platform = open('Day14/test_input.txt', 'r').readlines()
+platform = open('input.txt', 'r').readlines()
 for i in range(len(platform)):
     platform[i] = platform[i].rstrip()
 
 
+## OBJECT MODEL ##
 
-## INDEX THE ROUNDED ROCKS FOR NORTH ROLLING ##
+class Rock:
+    def __init__(self, pos, type):
+        self.pos = pos
+        self.type = type
 
-rounded_rocks = []
+    def moveTo(self, pos):
+        self.pos = pos
 
-for pos_y in range(len(platform)):
-    for pos_x in range(len(platform[pos_y])):
-        if platform[pos_y][pos_x] == ROUNDED_ROCK:
-            rounded_rocks.append((pos_y,pos_x))
+
+## INDEX THE ROCKS FOR NORTH ROLLING ##
+
+rocks = []
+for i in range(len(platform[0])):
+    rocks.append([])
+
+for y in range(len(platform)):
+    for x in range(len(platform[y])):
+        if platform[y][x] != EMPTY_SPACE:
+            rocks[x].append(Rock(y,platform[y][x]))
 
 
 ## ROLL THE ROCKS ##
 
-for rounded_rock in rounded_rocks:
-    if rounded_rock[0] > 0: # ignore top row
-        y = rounded_rock[0]
+for line in rocks:
+    for rock_index in range(len(line)):
+        if rock_index == 0:
+            if line[rock_index].type == ROUNDED_ROCK:
+                line[rock_index].moveTo(0)
+        else:
+            if line[rock_index].type == ROUNDED_ROCK:
+                line[rock_index].moveTo(line[rock_index-1].pos+1)
+
+
+## CALCULATE LOAD ##
+
+total_load = 0
+
+for line in rocks:
+    for rock in line:
+        if rock.type == ROUNDED_ROCK:
+            total_load += len(platform) - rock.pos
+
+print('Total load = ' + str(total_load))
